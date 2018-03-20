@@ -11,7 +11,9 @@ public:
 	void setSubject(char subject[]);
 	char *getSubject();
 
-	Grade(double value = 6, char* subject= "OOP");
+	Grade();
+	Grade(double);
+	Grade(double, char* );
 
 };
 
@@ -21,11 +23,17 @@ private:
 	char name[15];
 	int fn;
 	int gradesNum;
-	Grade *grades = new Grade[];
+	Grade *grades = new Grade[gradesNum];
 public:
+	Student(char name[], int fn, int gradesNum, Grade *grades);
 	void setName(char name[]);
-	char*getName() const;
+	char*getName();
 	void setFN(int fn);
-	int getFN() const;
+	int getFN();
+	void setGradesNum(int);
+	int getGradesNum();
+	void setGrades(Grade *grades);
+	Grade* getGrades();
+	~Student();
 	
 };
