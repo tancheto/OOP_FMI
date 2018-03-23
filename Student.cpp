@@ -20,7 +20,7 @@ double Grade::getValue()
 	return this->value;
 }
 
-void Grade::setSubject(char subject[])
+void Grade::setSubject(const char subject[])
 {
 	int i = 0;
 	while (subject[i] != '\0')
@@ -31,7 +31,7 @@ void Grade::setSubject(char subject[])
 	this->subject[i] = '\0';
 }
 
-char *Grade::getSubject()
+const char *Grade::getSubject() const
 {
 	return this->subject;
 }
@@ -80,16 +80,17 @@ int Student::getFN()
 	return this->fn;
 }
 
-void Student::setGradesNum(int gradesNum)
+void Student::setGradesNum(int maxCount)
 {
-	this->gradesNum = gradesNum;
+	this->maxCount = maxCount;
 }
 
 void Student::setGrades(Grade *grades)
 {
 	for (int i = 0; i < this->getGradesNum(); i++)
 	{
-		this->grades[i] = grades[i];		
+	//	this->grades[i](grades[i]);
+	//	this->addGrade(grades[i])
 	}
 }
 
@@ -98,39 +99,50 @@ Grade* Student::getGrades()
 	return this->grades;
 }
 
-Student::Student(char name[], int fn, int gradesNum, Grade *grades)
+Student::Student(char name[], int fn, int maxCount, Grade *grades):gradesCount(0)
 {
 	setName(name);
 	setFN(fn);
-	setGradesNum(gradesNum);
+	setGradesNum(maxCount);
 	setGrades(grades);
+	this->grades = new Grade[maxCount];
 }
 
 int Student::getGradesNum()
 {
-	return this->gradesNum;
+	return this->maxCount;
 }
 
 Student::~Student()
 {
 	std::cout << "Deleted student!!!" << std::endl;
-	//delete[] this->grades;
+	delete[] this->grades;
+}
+
+Grade::Grade(const Grade& otherGrade)
+{
+	this->setSubject(otherGrade.getSubject());
+}
+
+void addGrade(Grade g)
+{
+
 }
 
 int main()
 {
 	Grade gradeArr[3];
 
-	Grade myGrade;	
-	std::cout << myGrade.getValue()<<", ";
+	Grade myGrade;
+	std::cout << myGrade.getValue() << ", ";
 	std::cout << myGrade.getSubject() << std::endl;
 
 	Grade anotherGrade(6);
-	std::cout << anotherGrade.getValue() <<", ";
+	std::cout << anotherGrade.getValue() << ", ";
 	std::cout << anotherGrade.getSubject() << std::endl;
 
 	Grade oneMoreGrade(6, "DIS");
-	std::cout << oneMoreGrade.getValue() <<", ";
+	std::cout << oneMoreGrade.getValue() << ", ";
 	std::cout << oneMoreGrade.getSubject() << std::endl;
 
 	gradeArr[0] = myGrade;
@@ -140,16 +152,17 @@ int main()
 	std::cout << "--------------------------" << std::endl;
 
 	Student myStudent("Tanya", 62132, 3, gradeArr);
-	
+
 	Grade *GradesTanya = myStudent.getGrades();
 
 	std::cout << myStudent.getName() << ", " << myStudent.getFN() << std::endl;
-	for(int i=0;i<myStudent.getGradesNum();i++)
+	for (int i = 0; i<myStudent.getGradesNum(); i++)
 	{
-	std::cout <<GradesTanya[i].getSubject()<<"-"<<GradesTanya[i].getValue() << std::endl;
+		std::cout << GradesTanya[i].getSubject() << "-" << GradesTanya[i].getValue() << std::endl;
 	}
 
-	
+
 }
+
 
 
