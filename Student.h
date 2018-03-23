@@ -7,13 +7,14 @@ private:
 	char subject[15];
 public:
 	void setValue(double value);
-	double getValue();
-	void setSubject(char subject[]);
-	char *getSubject();
+	double getValue() const;
+	void setSubject(const char subject[]);
+	const char *getSubject() const;
 
 	Grade();
 	Grade(double);
-	Grade(double, char* );
+	Grade(double, char*);
+	Grade(const Grade& otherGrade);
 
 };
 
@@ -22,10 +23,12 @@ class Student
 private:
 	char name[15];
 	int fn;
-	int gradesNum;
-	Grade *grades = new Grade[gradesNum];
+	int maxCount;
+	int gradesCount;
+	Grade *grades;
+
 public:
-	Student(char name[], int fn, int gradesNum, Grade *grades);
+	Student(char name[], int fn, int maxCount, Grade *grades);
 	void setName(char name[]);
 	char*getName();
 	void setFN(int fn);
@@ -33,7 +36,8 @@ public:
 	void setGradesNum(int);
 	int getGradesNum();
 	void setGrades(Grade *grades);
+	void addGrade(Grade g);
 	Grade* getGrades();
 	~Student();
-	
+
 };
