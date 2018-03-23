@@ -15,7 +15,7 @@ void Grade::setValue(double value)
 	}
 }
 
-double Grade::getValue()
+double Grade::getValue() const
 {
 	return this->value;
 }
@@ -89,8 +89,7 @@ void Student::setGrades(Grade *grades)
 {
 	for (int i = 0; i < this->getGradesNum(); i++)
 	{
-	//	this->grades[i](grades[i]);
-	//	this->addGrade(grades[i])
+		this->addGrade(grades[i]);
 	}
 }
 
@@ -122,11 +121,13 @@ Student::~Student()
 Grade::Grade(const Grade& otherGrade)
 {
 	this->setSubject(otherGrade.getSubject());
+	this->setValue(otherGrade.getValue());
 }
 
-void addGrade(Grade g)
+void Student::addGrade(Grade g)
 {
-
+	this->gradesCount++;
+	this->grades[gradesCount - 1]=g;
 }
 
 int main()
@@ -161,8 +162,14 @@ int main()
 		std::cout << GradesTanya[i].getSubject() << "-" << GradesTanya[i].getValue() << std::endl;
 	}
 
+	Grade addThisGrade(4, "Algebra");
+	myStudent.addGrade(addThisGrade);
+	std::cout << "--------------------------" << std::endl;
+	std::cout << "Added grade:"<<std::endl;
+
+	for (int i = 0; i<myStudent.getGradesNum(); i++)
+	{
+		std::cout << GradesTanya[i].getSubject() << "-" << GradesTanya[i].getValue() << std::endl;
+	}
 
 }
-
-
-
