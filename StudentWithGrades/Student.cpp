@@ -1,60 +1,17 @@
 #include"stdafx.h"
 #include<iostream>
-#include "Header.h"
-#pragma warning(disable: 4996)
+#include"Student.h"
 
-void Grade::setValue(double value)
+
+Student::Student(char name[], int fn, int gradesCount, Grade *grades) :maxCount(5)
 {
-	if (value < 2 || value>6)
-	{
-		std::cout << "Invalid grade!" << std::endl;
-	}
-	else
-	{
-		this->value = value;
-	}
+	setName(name);
+	setFN(fn);
+	setGradesNum(gradesCount);
+	
+	this->grades = new Grade[maxCount];
+	setGrades(grades);
 }
-
-double Grade::getValue() const
-{
-	return this->value;
-}
-
-void Grade::setSubject(const char subject[])
-{
-	int i = 0;
-	while (subject[i] != '\0')
-	{
-		this->subject[i] = subject[i];
-		i++;
-	}
-	this->subject[i] = '\0';
-}
-
-const char *Grade::getSubject() const
-{
-	return this->subject;
-}
-
-Grade::Grade()
-{
-	setValue(6);
-	setSubject("OOP");
-}
-
-Grade::Grade(double value)
-{
-	setValue(value);
-	setSubject("UP");
-}
-
-Grade::Grade(double value, char* subject)
-{
-	setValue(value);
-	setSubject(subject);
-}
-
-
 
 void Student::setName(char name[])
 {
@@ -80,16 +37,36 @@ int Student::getFN()
 	return this->fn;
 }
 
-void Student::setGradesNum(int maxCount)
+void Student::setGradesNum(int gradesCount)
 {
-	this->maxCount = maxCount;
+	this->gradesCount = gradesCount;
+}
+
+int Student::getGradesNum()
+{
+	return this->gradesCount;
+}
+
+void Student::addGrade(Grade g)
+{
+	if(gradesCount<maxCount)
+	{
+		this->gradesCount++;	
+		this->grades[gradesCount - 1] = g;
+		std::cout << "Successfully added grade of " <<g.getSubject()<<"!"<< std::endl;
+	}
+	else
+	{
+		std::cout << "Invalid addition of subject "<<g.getSubject()<<"! Too many subjects, stop studying so much!!!"<<std::endl;
+	}
+
 }
 
 void Student::setGrades(Grade *grades)
 {
 	for (int i = 0; i < this->getGradesNum(); i++)
 	{
-		this->addGrade(grades[i]);
+		this->grades[i] = grades[i];
 	}
 }
 
@@ -98,18 +75,36 @@ Grade* Student::getGrades()
 	return this->grades;
 }
 
-Student::Student(char name[], int fn, int maxCount, Grade *grades):gradesCount(0)
+double Student::GetAverage()
 {
-	setName(name);
-	setFN(fn);
-	setGradesNum(maxCount);
-	setGrades(grades);
-	this->grades = new Grade[maxCount];
+	double aver=0;
+	int counter=0;
+
+	for (int i = 0; i < this->getGradesNum(); i++)
+	{
+		aver += this->grades[i].getValue();
+		counter++;
+	}
+	return (aver / counter);
 }
 
-int Student::getGradesNum()
+void Student::PrintGrades()
 {
-	return this->maxCount;
+	for (int i = 0; i<this->getGradesNum(); i++)
+	{
+		std::cout << this->grades[i].getSubject() << "-" << this->grades[i].getValue() << std::endl;
+	}
+}
+
+void Student::Print()
+{
+	std::cout << this->getName() << ", " << this->getFN() << std::endl;
+}
+
+void Student::PrintAll()
+{
+	this->PrintGrades();
+	this->Print();
 }
 
 Student::~Student()
@@ -118,58 +113,5 @@ Student::~Student()
 	delete[] this->grades;
 }
 
-Grade::Grade(const Grade& otherGrade)
-{
-	this->setSubject(otherGrade.getSubject());
-	this->setValue(otherGrade.getValue());
-}
 
-void Student::addGrade(Grade g)
-{
-	this->gradesCount++;
-	this->grades[gradesCount - 1]=g;
-}
 
-int main()
-{
-	Grade gradeArr[3];
-
-	Grade myGrade;
-	std::cout << myGrade.getValue() << ", ";
-	std::cout << myGrade.getSubject() << std::endl;
-
-	Grade anotherGrade(6);
-	std::cout << anotherGrade.getValue() << ", ";
-	std::cout << anotherGrade.getSubject() << std::endl;
-
-	Grade oneMoreGrade(6, "DIS");
-	std::cout << oneMoreGrade.getValue() << ", ";
-	std::cout << oneMoreGrade.getSubject() << std::endl;
-
-	gradeArr[0] = myGrade;
-	gradeArr[1] = anotherGrade;
-	gradeArr[2] = oneMoreGrade;
-
-	std::cout << "--------------------------" << std::endl;
-
-	Student myStudent("Tanya", 62132, 3, gradeArr);
-
-	Grade *GradesTanya = myStudent.getGrades();
-
-	std::cout << myStudent.getName() << ", " << myStudent.getFN() << std::endl;
-	for (int i = 0; i<myStudent.getGradesNum(); i++)
-	{
-		std::cout << GradesTanya[i].getSubject() << "-" << GradesTanya[i].getValue() << std::endl;
-	}
-
-	Grade addThisGrade(4, "Algebra");
-	myStudent.addGrade(addThisGrade);
-	std::cout << "--------------------------" << std::endl;
-	std::cout << "Added grade:"<<std::endl;
-
-	for (int i = 0; i<myStudent.getGradesNum(); i++)
-	{
-		std::cout << GradesTanya[i].getSubject() << "-" << GradesTanya[i].getValue() << std::endl;
-	}
-
-}

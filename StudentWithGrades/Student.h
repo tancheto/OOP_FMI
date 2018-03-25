@@ -1,22 +1,5 @@
 #pragma once
-
-class Grade
-{
-private:
-	double value;
-	char subject[15];
-public:
-	void setValue(double value);
-	double getValue() const;
-	void setSubject(const char subject[]);
-	const char *getSubject() const;
-
-	Grade();
-	Grade(double);
-	Grade(double, char*);
-	Grade(const Grade& otherGrade);
-
-};
+#include"Grade.h"
 
 class Student
 {
@@ -28,7 +11,7 @@ private:
 	Grade *grades;
 
 public:
-	Student(char name[], int fn, int maxCount, Grade *grades);
+	Student(char name[], int fn, int gradesCount, Grade *grades);
 	void setName(char name[]);
 	char*getName();
 	void setFN(int fn);
@@ -38,6 +21,10 @@ public:
 	void setGrades(Grade *grades);
 	void addGrade(Grade g);
 	Grade* getGrades();
+	double GetAverage();
+	void PrintGrades();
+	void Print();
+	void PrintAll();
 	~Student();
 
 };
