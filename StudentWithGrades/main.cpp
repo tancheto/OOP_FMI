@@ -47,6 +47,12 @@ int main()
 	myStudent.PrintGrades();
 	
 	std::cout << "Average grade:" <<myStudent.GetAverage()<< std::endl;
+	std::cout << "--------------------------" << std::endl;
+
+	Student Tanya(myStudent);
+
+	myStudent.deleteGrades();
+	Tanya.PrintAll();
 
 	return 0;
 }
