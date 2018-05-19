@@ -1,3 +1,4 @@
+#include<iostream>
 #include"TimestampWithDescription.h"
 int size = 10;//random
 
@@ -28,7 +29,7 @@ void StrCpy(char* &dest, const char* &source)
 void DoubleSize(char* &arr)
 {
 	const char* con_arr = arr;
-	char* NewArr = new char[StrLen(con_arr)*2];
+	char* NewArr = new char[StrLen(con_arr) * 2];
 	int i = 0;
 	while (arr[i] != '\0')
 	{
@@ -41,7 +42,7 @@ void DoubleSize(char* &arr)
 	arr = NewArr;
 }
 
-TimestampWithDescription::TimestampWithDescription(unsigned long value, char* d): Timestamp(value)
+TimestampWithDescription::TimestampWithDescription(unsigned long value, char* d) : Timestamp(value)
 {
 	descr = new char[size];
 	SetDescription(d);
@@ -73,11 +74,3 @@ void TimestampWithDescription::SetDescription(const char* d)
 	StrCpy(this->descr, d);
 }
 
-/*std::ostream& operator<<(std::ostream& os, const TimestampWithDescription& tswd)
-{
-	os << tswd.descr;
-}
-std::istream& operator>>(std::istream& is, TimestampWithDescription& tswd)
-{
-	
-}*/
